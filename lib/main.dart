@@ -4,7 +4,7 @@ import 'package:realtime_chat/src/routes/routes.dart';
 void main(){
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: '/',
+    initialRoute: '/chat',
     routes: routes,
   ));
 }
