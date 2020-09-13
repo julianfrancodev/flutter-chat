@@ -14,7 +14,7 @@ class ButtonWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       child: RaisedButton(
-        onPressed: () => this.onPress(),
+        onPressed: this.onPress,
         elevation: 2,
         highlightElevation: 5,
         color: Colors.blue,

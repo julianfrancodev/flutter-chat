@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:realtime_chat/src/pages/login_page.dart';
+import 'package:realtime_chat/src/pages/users_page.dart';
+import 'package:realtime_chat/src/services/auth_service.dart';
 
 class LoadinPage extends StatefulWidget {
   @override
@@ -8,6 +12,30 @@ class LoadinPage extends StatefulWidget {
 class _LoadinPageState extends State<LoadinPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: FutureBuilder(
+        future: validSiginiState(context),
+        builder: (context, snapshot) {
+          return Center(
+            child: Text("Please Wait..."),
+          );
+        },
+      ),
+    );
+  }
+
+  Future validSiginiState(BuildContext context) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    final authted = await authService.isSigini();
+    if (authted) {
+      // TODO connect server/service
+      // Navigator.pushReplacementNamed(context, '/users');
+      Navigator.pushReplacement(
+          context, PageRouteBuilder(pageBuilder: (_, __, ___) => UsersPage()));
+    } else {
+      Navigator.pushReplacement(
+          context, PageRouteBuilder(pageBuilder: (_, __, ___) => LoginPage()));
+    }
   }
 }

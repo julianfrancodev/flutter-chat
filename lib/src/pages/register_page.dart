@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:realtime_chat/src/helpers/show_altert.dart';
+import 'package:realtime_chat/src/services/auth_service.dart';
 import 'package:realtime_chat/src/widgets/button_widget.dart';
 import 'package:realtime_chat/src/widgets/input_widget.dart';
 import 'package:realtime_chat/src/widgets/labels_widget.dart';
@@ -57,6 +60,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
@@ -85,15 +90,30 @@ class __FormState extends State<_Form> {
           ),
           ButtonWidget(
             buttonName: "Sing Up",
-            onPress: onPress,
+            onPress:  authService.authenticating
+                ? null
+                : () async {
+              FocusScope.of(context).unfocus();
+              final signinOk = await authService.register(
+                  this.nameController.text.trim(),
+                  this.emailController.text.trim(),
+                  this.passwordController.text.trim());
+
+              if (signinOk) {
+                // TODO connect with the socket server
+                Navigator.pushReplacementNamed(context, '/users');
+
+              } else {
+                // show alert
+
+                showAlert(context, 'Register failed',
+                    'Password or email incorrect');
+              }
+            },
           )
         ],
       ),
     );
   }
 
-  onPress() {
-    print(this.emailController.text);
-    print(this.passwordController.text);
-  }
 }
