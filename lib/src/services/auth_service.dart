@@ -82,7 +82,7 @@ class AuthService with ChangeNotifier {
     final String token = await prefs.getString("token");
     print(token);
     final resp = await http.get('${Env.apiUrl}/signin/renew',
-        headers: {'Content-Type': 'application/json','x-token': token});
+        headers: {'Content-Type': 'application/json', 'x-token': token});
 
     print(resp.body);
 

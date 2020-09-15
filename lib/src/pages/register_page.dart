@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:realtime_chat/src/helpers/show_altert.dart';
 import 'package:realtime_chat/src/services/auth_service.dart';
+import 'package:realtime_chat/src/services/socket_service.dart';
 import 'package:realtime_chat/src/widgets/button_widget.dart';
 import 'package:realtime_chat/src/widgets/input_widget.dart';
 import 'package:realtime_chat/src/widgets/labels_widget.dart';
@@ -61,6 +62,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
 
     return Container(
       margin: EdgeInsets.only(top: 40),
@@ -100,7 +102,7 @@ class __FormState extends State<_Form> {
                   this.passwordController.text.trim());
 
               if (signinOk) {
-                // TODO connect with the socket server
+                socketService.connect();
                 Navigator.pushReplacementNamed(context, '/users');
 
               } else {

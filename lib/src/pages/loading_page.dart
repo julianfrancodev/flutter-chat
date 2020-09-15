@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:realtime_chat/src/pages/login_page.dart';
 import 'package:realtime_chat/src/pages/users_page.dart';
 import 'package:realtime_chat/src/services/auth_service.dart';
+import 'package:realtime_chat/src/services/socket_service.dart';
 
 class LoadinPage extends StatefulWidget {
   @override
@@ -26,10 +27,12 @@ class _LoadinPageState extends State<LoadinPage> {
 
   Future validSiginiState(BuildContext context) async {
     final authService = Provider.of<AuthService>(context, listen: false);
+    final socketService = Provider.of<SocketService>(context, listen: false);
+
 
     final authted = await authService.isSigini();
     if (authted) {
-      // TODO connect server/service
+      socketService.connect();
       // Navigator.pushReplacementNamed(context, '/users');
       Navigator.pushReplacement(
           context, PageRouteBuilder(pageBuilder: (_, __, ___) => UsersPage()));
