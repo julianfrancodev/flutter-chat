@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:realtime_chat/src/models/message_response.dart';
 import 'package:realtime_chat/src/services/auth_service.dart';
 import 'package:realtime_chat/src/services/chat_service.dart';
 import 'package:realtime_chat/src/services/socket_service.dart';
@@ -36,14 +37,30 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     this.socketService = Provider.of<SocketService>(context, listen: false);
     this.authService = Provider.of<AuthService>(context, listen: false);
 
-    this.socketService.socket.on('message-personal',_listenMessage);
+    this.socketService.socket.on('message-personal', _listenMessage);
+    _loadHistory(this.chatService.userFor.uid);
   }
 
-  void _listenMessage( dynamic data){
+  void _loadHistory(String userID) async {
+    List<Message> chat = await chatService.getChat(userID);
+    final history = chat.map((m) => new ChatMessageWidget(
+        text: m.message,
+        uid: m.from,
+        animationController: new AnimationController(
+            vsync: this, duration: Duration(milliseconds: 0))
+          ..forward()));
+
+      setState(() {
+        _messages.insertAll(0, history);
+      });
+  }
+
+  void _listenMessage(dynamic data) {
     ChatMessageWidget message = ChatMessageWidget(
       text: data['message'],
       uid: data['from'],
-      animationController: AnimationController(vsync: this, duration: Duration(milliseconds: 300)),
+      animationController: AnimationController(
+          vsync: this, duration: Duration(milliseconds: 300)),
     );
 
     setState(() {
@@ -55,7 +72,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
     final user = this.chatService.userFor;
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +82,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           children: [
             CircleAvatar(
               child: Text(
-                user.name.substring(0,2),
+                user.name.substring(0, 2),
                 style: TextStyle(fontSize: 12),
               ),
               backgroundColor: Colors.lightBlueAccent,
@@ -168,7 +184,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     if (value.length == 0) return;
     final newMessage = ChatMessageWidget(
       text: _textEditingController.text,
-      uid: '123',
+      uid: authService.user.uid,
       animationController: AnimationController(
           vsync: this, duration: Duration(milliseconds: 200)),
     );
@@ -179,15 +195,13 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       newMessage.animationController.forward();
     });
 
-
-
     _textEditingController.clear();
     _focusNode.requestFocus();
 
-    this.socketService.emit('message-personal',{
+    this.socketService.emit('message-personal', {
       'from': this.authService.user.uid,
       'to': this.chatService.userFor.uid,
-      'message':value
+      'message': value
     });
   }
 
@@ -195,7 +209,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   void dispose() {
     // TODO: socket on off
     // TODO: implement dispose
-
 
     for (ChatMessageWidget message in _messages) {
       message.animationController.dispose();
