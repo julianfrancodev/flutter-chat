@@ -30,11 +30,15 @@ class InputWidget extends StatelessWidget {
         ],
       ),
       child: TextField(
+        cursorColor: Colors.amber,
         controller: textEditingController,
         autocorrect: false,
         keyboardType: this.textInputType,
         obscureText: this.obscuredText,
         decoration: InputDecoration(
+          fillColor: Colors.amber,
+            focusColor: Colors.amber,
+            hoverColor: Colors.amber,
             prefixIcon: Icon(this.icon),
             focusedBorder: InputBorder.none,
             border: InputBorder.none,

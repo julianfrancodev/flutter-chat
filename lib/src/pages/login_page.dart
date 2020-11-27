@@ -36,10 +36,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Terminos y condiciones de uso',
-                    style: TextStyle(fontWeight: FontWeight.w200),
-                  ),
                 )
               ],
             ),

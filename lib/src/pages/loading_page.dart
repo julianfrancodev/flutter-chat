@@ -15,25 +15,24 @@ class _LoadinPageState extends State<LoadinPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: validSiginiState(context),
+        future: validSigninState(context),
         builder: (context, snapshot) {
           return Center(
-            child: Text("Please Wait..."),
+            child: Text("Loading..."),
           );
         },
       ),
     );
   }
 
-  Future validSiginiState(BuildContext context) async {
+  Future validSigninState(BuildContext context) async {
     final authService = Provider.of<AuthService>(context, listen: false);
     final socketService = Provider.of<SocketService>(context, listen: false);
 
 
-    final authted = await authService.isSigini();
-    if (authted) {
+    final auth = await authService.isSignin();
+    if (auth) {
       socketService.connect();
-      // Navigator.pushReplacementNamed(context, '/users');
       Navigator.pushReplacement(
           context, PageRouteBuilder(pageBuilder: (_, __, ___) => UsersPage()));
     } else {

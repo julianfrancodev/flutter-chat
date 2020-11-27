@@ -32,7 +32,7 @@ class LabelsWidget extends StatelessWidget {
             child: Text(
               this.redirection,
               style: TextStyle(
-                  color: Colors.blue[600],
+                  color: Colors.amber,
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),

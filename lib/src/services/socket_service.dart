@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realtime_chat/src/global/env.dart';
 import 'package:realtime_chat/src/services/auth_service.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -18,7 +19,7 @@ class SocketService with ChangeNotifier {
   void connect() async {
     final token = await AuthService.getToken();
     // Dart client
-    this._socket = IO.io('http://192.168.1.9:3000/', {
+    this._socket = IO.io('${Env.socketUrl}', {
       'transports': ['websocket'],
       'autoConnect': true,
       'forceNew': true,

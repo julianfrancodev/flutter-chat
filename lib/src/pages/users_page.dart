@@ -6,7 +6,6 @@ import 'package:realtime_chat/src/services/auth_service.dart';
 import 'package:realtime_chat/src/services/chat_service.dart';
 import 'package:realtime_chat/src/services/socket_service.dart';
 import 'package:realtime_chat/src/services/users_service.dart';
-import 'package:realtime_chat/src/widgets/chat_message_widget.dart';
 
 class UsersPage extends StatefulWidget {
   @override
@@ -37,7 +36,7 @@ class _UsersPageState extends State<UsersPage> {
     final socketService = Provider.of<SocketService>(context);
 
     final user = authService.user;
-    print(socketService.serverStatus);
+    print("Status ${socketService.serverStatus}");
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -81,9 +80,9 @@ class _UsersPageState extends State<UsersPage> {
           header: WaterDropHeader(
             complete: Icon(
               Icons.check,
-              color: Colors.blue,
+              color: Colors.amber,
             ),
-            waterDropColor: Colors.blue,
+            waterDropColor: Colors.amber,
           ),
           enablePullDown: true,
         ));
@@ -93,7 +92,8 @@ class _UsersPageState extends State<UsersPage> {
     return ListTile(
       title: Text(user.name),
       leading: CircleAvatar(
-        child: Text(user.name.substring(0, 2)),
+        backgroundColor: Colors.amber,
+        child: Text(user.name.substring(0, 2), style: TextStyle(color: Colors.black),),
       ),
       trailing: Container(
         width: 10,

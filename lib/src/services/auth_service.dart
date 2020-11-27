@@ -38,14 +38,13 @@ class AuthService with ChangeNotifier {
     final resp = await http.post('${Env.apiUrl}/signin',
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
 
-    print(resp.body);
+    print("response: ${resp.body}");
     this.authenticating = false;
 
     if (resp.statusCode == 200) {
       final signinResponse = signinResponseFromJson(resp.body);
       this.user = signinResponse.user;
-      print(user.email);
-      // TODO save token
+      print("User ${user}");
       this._saveToken(signinResponse.token);
       return true;
     } else {
@@ -61,13 +60,13 @@ class AuthService with ChangeNotifier {
     final resp = await http.post('${Env.apiUrl}/signin/new',
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
 
-    print(resp.body);
+    print("response ${resp.body}");
     this.authenticating = false;
 
     if (resp.statusCode == 200) {
       final signinResponse = signinResponseFromJson(resp.body);
       this.user = signinResponse.user;
-      print(user.email);
+      print("email ${user.email}");
       // TODO save token
       this._saveToken(signinResponse.token);
       return true;
@@ -76,20 +75,20 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<bool> isSigini() async {
+  Future<bool> isSignin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final String token = await prefs.getString("token");
-    print(token);
+    print("token ${token}");
     final resp = await http.get('${Env.apiUrl}/signin/renew',
         headers: {'Content-Type': 'application/json', 'x-token': token});
 
-    print(resp.body);
+    print("response ${resp.body}");
 
     if (resp.statusCode == 200) {
       final signinResponse = signinResponseFromJson(resp.body);
       this.user = signinResponse.user;
-      print(user.email);
+      print("email ${user.email}");
       return true;
     } else {
       this.logout();

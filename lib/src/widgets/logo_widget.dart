@@ -16,7 +16,7 @@ class LogoWidget extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Messenger',
+              'Toche',
               style: TextStyle(fontSize: 30),
             )
           ],

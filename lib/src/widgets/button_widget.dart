@@ -17,7 +17,7 @@ class ButtonWidget extends StatelessWidget {
         onPressed: this.onPress,
         elevation: 2,
         highlightElevation: 5,
-        color: Colors.blue,
+        color: Colors.amber,
         shape: StadiumBorder(),
         child: Container(
             width: double.infinity,

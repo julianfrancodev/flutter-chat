@@ -11,6 +11,4 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/chat' : (context) => ChatPage(),
   '/register': (context) => RegisterPage(),
   '/loading' : (context) => LoadinPage(),
-
-
 };

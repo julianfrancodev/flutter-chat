@@ -85,7 +85,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                 user.name.substring(0, 2),
                 style: TextStyle(fontSize: 12),
               ),
-              backgroundColor: Colors.lightBlueAccent,
+              backgroundColor: Colors.amber,
               maxRadius: 14,
             ),
             SizedBox(
@@ -160,7 +160,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                   : Container(
                       margin: EdgeInsets.symmetric(horizontal: 4),
                       child: IconTheme(
-                        data: IconThemeData(color: Colors.blue),
+                        data: IconThemeData(color: Colors.amber),
                         child: IconButton(
                           highlightColor: Colors.transparent,
                           icon: Icon(
