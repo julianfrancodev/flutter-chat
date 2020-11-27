@@ -35,10 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Al ingresar acepta condiciones de uso.',
-                    style: TextStyle(fontWeight: FontWeight.w200),
-                  ),
                 )
               ],
             ),
